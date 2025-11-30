@@ -4,12 +4,12 @@ import { useStore } from '../context/StoreContext';
 import { ShoppingCart, User as UserIcon, LogOut, Eye, Menu as MenuIcon, Type, Minus, Plus, RefreshCw, X } from 'lucide-react';
 
 export const Navbar = () => {
-  const { 
-    cart, user, logout, 
+  const {
+    cart, user, logout,
     toggleAccessibility, accessibilityMode,
-    fontSize, increaseFontSize, decreaseFontSize, resetFontSize 
+    fontSize, increaseFontSize, decreaseFontSize, resetFontSize
   } = useStore();
-  
+
   const location = useLocation();
   const [showA11yMenu, setShowA11yMenu] = useState(false);
   const a11yMenuRef = useRef<HTMLDivElement>(null);
@@ -48,19 +48,18 @@ export const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            
+
             {/* Accessibility Dropdown */}
             <div className="relative" ref={a11yMenuRef}>
-              <button 
+              <button
                 onClick={() => setShowA11yMenu(!showA11yMenu)}
                 title="Menú de Accesibilidad"
-                className={`p-2 rounded-full transition-colors ${
-                  showA11yMenu 
-                    ? 'bg-brand-100 text-brand-600' 
-                    : accessibilityMode 
-                      ? 'bg-black text-white ring-2 ring-yellow-400' 
+                className={`p-2 rounded-full transition-colors ${showA11yMenu
+                    ? 'bg-brand-100 text-brand-600'
+                    : accessibilityMode
+                      ? 'bg-black text-white ring-2 ring-yellow-400'
                       : 'bg-gray-100 text-gray-600 hover:text-brand-500'
-                }`}
+                  }`}
               >
                 <Eye size={20} />
               </button>
@@ -70,7 +69,7 @@ export const Navbar = () => {
                 <div className={`absolute right-0 mt-2 w-72 rounded-xl shadow-2xl ring-1 ring-black ring-opacity-5 z-50 transform origin-top-right transition-all ${accessibilityMode ? 'bg-black border-2 border-white text-white' : 'bg-white text-gray-900'}`}>
                   <div className="p-4 space-y-4">
                     <div className="flex justify-between items-center border-b pb-2 mb-2">
-                      <h3 className="font-bold flex items-center gap-2"><Eye size={16}/> Accesibilidad</h3>
+                      <h3 className="font-bold flex items-center gap-2"><Eye size={16} /> Accesibilidad</h3>
                       <button onClick={() => setShowA11yMenu(false)} className="text-gray-400 hover:text-gray-600">
                         <X size={16} />
                       </button>
@@ -79,7 +78,7 @@ export const Navbar = () => {
                     {/* High Contrast Toggle */}
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">Alto Contraste</span>
-                      <button 
+                      <button
                         onClick={toggleAccessibility}
                         className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none ${accessibilityMode ? 'bg-yellow-400' : 'bg-gray-300'}`}
                       >
@@ -96,7 +95,7 @@ export const Navbar = () => {
                         <span className="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded">{fontSize}%</span>
                       </div>
                       <div className="flex justify-between gap-2">
-                        <button 
+                        <button
                           onClick={decreaseFontSize}
                           disabled={fontSize <= 75}
                           className={`flex-1 py-2 px-2 rounded flex justify-center items-center ${accessibilityMode ? 'bg-white text-black border border-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
@@ -104,14 +103,14 @@ export const Navbar = () => {
                         >
                           <Minus size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={resetFontSize}
                           className={`flex-1 py-2 px-2 rounded flex justify-center items-center ${accessibilityMode ? 'bg-white text-black border border-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
                           title="Restablecer tamaño"
                         >
                           <RefreshCw size={14} />
                         </button>
-                        <button 
+                        <button
                           onClick={increaseFontSize}
                           disabled={fontSize >= 150}
                           className={`flex-1 py-2 px-2 rounded flex justify-center items-center ${accessibilityMode ? 'bg-white text-black border border-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}
@@ -153,7 +152,7 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile Menu (Simplified) */}
       <div className="sm:hidden flex justify-around border-t py-2 bg-gray-50">
         <Link to="/" className="text-sm font-medium p-2">Inicio</Link>
@@ -166,7 +165,7 @@ export const Navbar = () => {
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { accessibilityMode } = useStore();
-  
+
   return (
     <div className={`min-h-screen flex flex-col ${accessibilityMode ? 'text-lg font-semibold bg-white' : 'bg-gray-50'}`}>
       <Navbar />
@@ -175,7 +174,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </main>
       <footer className={`bg-gray-800 text-white py-6 ${accessibilityMode ? 'bg-black border-t-4 border-white' : ''}`}>
         <div className="container mx-auto text-center">
-          <p>© 2024 FastBite Delivery. Evidencia GA4-220501096-AA1-EV02.</p>
+          <p>© 2025 FastBite Delivery. Jhon Fredy Lemus.</p>
         </div>
       </footer>
     </div>
