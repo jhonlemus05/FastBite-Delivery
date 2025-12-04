@@ -47,3 +47,13 @@ export interface DashboardStats {
   pendingOrders: number;
   popularCategory: string;
 }
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+}

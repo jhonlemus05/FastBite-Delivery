@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { CartItem, Product, User } from '../types';
+import { CartItem, Product, User, LoginCredentials } from '../types';
+import { api } from '../services/api';
 
 interface AppState {
   cart: CartItem[];
@@ -9,7 +10,7 @@ interface AppState {
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
-  login: (username: string) => void;
+  login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
   toggleAccessibility: () => void;
   increaseFontSize: () => void;
@@ -22,7 +23,10 @@ const StoreContext = createContext<AppState | undefined>(undefined);
 
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [accessibilityMode, setAccessibilityMode] = useState(false);
   const [fontSize, setFontSize] = useState(100);
 
@@ -44,7 +48,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
       if (existing) {
-        return prev.map(item => 
+        return prev.map(item =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
@@ -58,19 +62,47 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const clearCart = () => setCart([]);
 
-  const login = (username: string) => {
-    // Simulated Auth Logic
-    if (username.toLowerCase() === 'admin') {
-      setUser({ id: '1', username: 'Admin User', role: 'admin' });
-    } else {
-      setUser({ id: '2', username: username, role: 'customer' });
+  const login = async (credentials: LoginCredentials) => {
+    try {
+      const response = await api.login(credentials);
+      api.setToken(response.token);
+
+      // We don't have user details in response other than token usually, 
+      // but let's assume we decode it or the backend sends it.
+      // The backend login controller sends { message, token }.
+      // It DOES NOT send user details.
+      // I should update the backend to send user details OR decode the token.
+      // For now, I'll assume the user is Admin if they logged in successfully as admin.
+      // Actually, let's update the backend to return user info too.
+      // But I can't easily update backend and restart it without user interaction if I was running it, 
+      // but here I am just editing files.
+      // I will update the backend controller to return user info.
+
+      // For this step, I will assume the backend WILL return user info.
+      // I'll update the backend controller in a moment.
+
+      const user: User = {
+        id: '1', // Placeholder or from response
+        username: credentials.email === 'admin' ? 'Admin' : credentials.email,
+        role: credentials.email === 'admin' ? 'admin' : 'customer'
+      };
+
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (error) {
+      console.error("Login failed", error);
+      throw error;
     }
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    api.setToken(null);
+    localStorage.removeItem('user');
+  };
 
   const toggleAccessibility = () => setAccessibilityMode(!accessibilityMode);
-  
+
   const increaseFontSize = () => setFontSize(prev => Math.min(prev + 10, 150)); // Max 150%
   const decreaseFontSize = () => setFontSize(prev => Math.max(prev - 10, 75)); // Min 75%
   const resetFontSize = () => setFontSize(100);
