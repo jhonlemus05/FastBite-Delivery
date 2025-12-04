@@ -8,7 +8,6 @@ FastBite Delivery es una aplicación web moderna para entrega de comida, constru
     -   **Menú**: Navega por productos por categoría (Hamburguesas, Pizzas, Bebidas, etc.).
     -   **Carrito**: Agrega artículos, ajusta cantidades y realiza el pago.
     -   **Seguimiento de Pedidos**: Ver el estado de tu pedido en tiempo real.
-    -   **Asistente IA**: Chatbot integrado con Google Gemini para atención al cliente.
 -   **Panel de Administración**:
     -   **Gestión de Productos**: Agregar, editar y eliminar productos.
     -   **Gestión de Pedidos**: Ver y actualizar estados de los pedidos.
@@ -45,7 +44,6 @@ FastBite Delivery es una aplicación web moderna para entrega de comida, constru
     Crea un archivo `.env.local` en el directorio raíz y agrega:
     ```env
     VITE_API_URL=http://localhost:3000/api  # O tu URL del backend desplegado
-    VITE_GEMINI_API_KEY=tu_clave_api_gemini
     ```
 
 4.  Ejecutar el servidor de desarrollo:
@@ -69,7 +67,7 @@ Este proyecto está configurado para despliegue en **Vercel**.
 
 1.  Sube tu código a GitHub.
 2.  Importa el proyecto en Vercel.
-3.  Configura las variables de entorno `VITE_API_URL` y `VITE_GEMINI_API_KEY` en Vercel.
+3.  Configura las variables de entorno `VITE_API_URL` y en Vercel.
 4.  ¡Despliega!
 
 El archivo `vercel.json` maneja las reescrituras de rutas para la Single Page Application (SPA).
